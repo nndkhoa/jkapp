@@ -1,4 +1,10 @@
 node {
+  stage('unit test') {
+    nodejs(nodeJSInstallationName: 'default') {
+      sh 'npm install --only=dev'
+      sh 'npm test'
+    }
+  }
   stage('build') {
     nodejs(nodeJSInstallationName: 'default') {
       sh 'npm install'
