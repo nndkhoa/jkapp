@@ -1,5 +1,5 @@
 node {
-  state('init') {
+  stage('init') {
     checkout scm
   }
   stage('unit test') {
