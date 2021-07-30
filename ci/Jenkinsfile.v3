@@ -1,0 +1,28 @@
+node {
+  try {
+    stage('init') {
+      checkout scm
+    }
+    stage('unit test') {
+      nodejs(nodeJSInstallationName: 'default') {
+        sh 'npm install --only=dev'
+        sh 'npm test'
+      }
+    }
+    stage('build') {
+      nodejs(nodeJSInstallationName: 'default') {
+        sh 'npm install'
+      }
+    }
+  } catch(e) {
+    currentBuild.result = 'FAILURE'
+
+    def to = 'nndkhoa9@gmail.com'
+    def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}";
+    def content = '${JELLY_SCRIPT,template="html"}'
+
+    emailext body: content,
+      subject: subject,
+      to: to
+  }
+}
