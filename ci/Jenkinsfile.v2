@@ -1,0 +1,18 @@
+node {
+  stage('init') {
+    checkout scm
+  }
+  stage('unit test') {
+    nodejs(nodeJSInstallationName: 'default') {
+      sh 'npm install --only=dev'
+      sh 'npm test'
+    }
+  }
+  stage('docker build/push') {
+    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+      def app = docker.build "nndkhoa9/jkapp:lastest"
+      app.push()
+      // docker.build('myapp').push('latest')
+    }
+  }
+}
