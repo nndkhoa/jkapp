@@ -23,6 +23,7 @@ node {
 
     emailext body: content,
       subject: subject,
-      to: to
+      to: to,
+      mimeType: 'text/html'
   }
 }
