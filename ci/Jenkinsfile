@@ -1,4 +1,7 @@
 node {
+  state('init') {
+    checkout scm
+  }
   stage('unit test') {
     nodejs(nodeJSInstallationName: 'default') {
       sh 'npm install --only=dev'
